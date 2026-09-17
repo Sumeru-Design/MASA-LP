@@ -280,11 +280,12 @@
      ?aol-solo=problem hides every section but that one, so you can verify
      a section renders correctly IN ISOLATION — exactly as it will sit
      inside its own Unbounce widget. The cheapest possible pre-port QA.
-     ?aol-ship=1 hides the magenta placeholder outlines for screenshots.
+     ?aol-draft=1 reveals the magenta outlines around unverified copy.
      ------------------------------------------------------------------- */
   function devFlags() {
     var q = w.location.search;
-    if (/[?&]aol-ship=1/.test(q)) { H.className += ' aol-ship'; }
+    /* Placeholder outlines are opt-in: ?aol-draft=1 reveals them. */
+    if (/[?&]aol-draft=1/.test(q)) { H.className += ' aol-draft'; }
 
     var m = q.match(/[?&]aol-solo=([a-z0-9-]+)/i);
     if (!m) { return; }

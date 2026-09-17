@@ -42,12 +42,34 @@ the product is the morning, not the night.
 
 | File | Dimensions | Used in | Source | Alt text |
 |---|---|---|---|---|
-| `hero-morning-window-1400x1500.jpg` | 1400×1500 | §1 Hero | Unsplash `photo-1699880744039-946caab62843` | A woman standing at a tall window in morning light, head tipped back, laughing. |
+| `life-1-morning-640x800.jpg` | 640×800 | §1 Hero reel, frame 1 | Unsplash `photo-1699880744039-946caab62843` | `alt=""` — see "The hero reel" below |
+| `life-2-work-640x800.jpg` | 640×800 | §1 Hero reel, frame 2 | Unsplash `photo-1758874384318-d5653079a0e3` | `alt=""` |
+| `life-3-run-640x800.jpg` | 640×800 | §1 Hero reel, frame 3 | Unsplash `photo-1565133259541-6c75cef7551e` | `alt=""` |
+| `life-4-kids-640x800.jpg` | 640×800 | §1 Hero reel, frame 4 | Unsplash `photo-1756982784202-073abcfb2993` | `alt=""` |
+| `life-5-errands-640x800.jpg` | 640×800 | §1 Hero reel, frame 5 | Unsplash `photo-1758525223844-417102a07caf` | `alt=""` |
 | `rested-parent-900x1125.jpg` | 900×1125 | §3 Why this matters | Unsplash `photo-1590527548172-295fdcb1bab0` | A man holding his baby daughter in warm morning light, both of them smiling. |
-| `group-session-1600x900.jpg` | 1600×900 | §4 The protocol | Unsplash `photo-1778694276944-66df489166e6` | A group seated together in a bright, daylit room during a guided session. |
+| `session-at-home-1600x900.jpg` | 1600×900 | §4 The protocol | Unsplash `photo-1758599880866-940def52706a` | A woman on a mat in a bright living room, stretching forward, an open laptop in front of her. |
 | `practice-face-700x700.jpg` | 700×700 | §4 inset | Unsplash `photo-1626585957649-b82e43c1269d` | A woman outdoors in warm light, eyes closed, smiling. |
 | `gurudev-390x648.jpg` | 390×648 | §9 Gurudev | **Official** — Brand Style Guide (May 2026), Journey Within bookmark | Gurudev Sri Sri Ravi Shankar, smiling, in warm morning light. |
 | `aol-logo-fullcolor.png` | 1234×472 | Header, footer | **Official** — Brand Style Guide, slide 8 | The Art of Living |
+
+### The hero reel
+
+Five frames crossfading on a 25-second loop, five seconds each: a woman laughing at a sunlit window,
+someone unhurried at a desk, a morning run, a mother with her daughters, and a woman home with the
+shopping. Ordinary days, rested — the argument §3 makes in words.
+
+**It is a CSS crossfade, not an animated GIF.** A GIF of five photographs at this size would run to
+several megabytes, dither the gradients, and — the deciding factor — could not be stopped for
+someone who has asked for reduced motion. The crossfade is **452KB for all five**, stays sharp, and
+holds on frame one when reduced motion is requested. Verified: renders at 2s and 12s are
+byte-identical under `prefers-reduced-motion`.
+
+Accessibility: the five frames carry `alt=""` and the container is `role="img"` with a single
+`aria-label` describing the sequence. A screen reader announces one image, not five.
+
+Frame one has base `opacity: 1`, so if the animation never runs the hero still shows a photograph
+rather than an empty box.
 
 Source URL pattern: `https://images.unsplash.com/<id>?w=<W>&h=<H>&q=78&fm=jpg&fit=crop&crop=entropy`
 
@@ -74,8 +96,8 @@ They are marked here, not hidden:
 
 | Slot | Why stock is weak here |
 |---|---|
-| **§4 group session** | This is the product. A stock version reads as a corporate wellness seminar and quietly undermines the section. A real class photo is worth more than anything else on this list. |
-| **§1 hero** | Works well, but a real Art of Living participant would be better than a stock model. |
+| **§4 session at home** | This is the product — someone on a mat at home with the session open on a laptop. A real participant would beat it outright. |
+| **§1 hero reel** | Five stock frames. Real participants living ordinary days would be far stronger — this is the most replaceable set on the page. |
 | **§3 family** | Same. The emotional weight of the section is carried entirely by this image. |
 
 Swapping any of them is a one-line change: same filename, same dimensions, no CSS edits.

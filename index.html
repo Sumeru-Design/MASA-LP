@@ -55,17 +55,6 @@
 
 <!-- #region unbounce:01-hero  widget: Custom HTML  bg: --aol-grad-wash -->
 <section class="aol-section aol-hero" id="top" data-aol-anchor="top" aria-labelledby="aol-hero-title">
-  <!-- The sunrise, literally. Decorative only: aria-hidden, no text, no
-       interaction, and it sits behind the content. Pure CSS so it survives
-       the port with the stylesheet and costs no JavaScript. It rises ONCE
-       and stops — a looping sun would be a distraction on a page sold to
-       people with disrupted sleep. Fully disabled under
-       prefers-reduced-motion, where it renders in its final risen state. -->
-  <div class="aol-sunrise" aria-hidden="true">
-    <div class="aol-sunrise__glow"></div>
-    <div class="aol-sunrise__disc"></div>
-  </div>
-
   <div class="aol-shell aol-hero__grid">
 
     <div class="aol-hero__copy">
@@ -109,10 +98,25 @@
       </div>
     </div>
 
+    <!-- A short reel of ordinary days, rested. Presented to assistive tech as
+         ONE image with one description: role="img" + aria-label on the
+         container, alt="" on each frame. Pure CSS crossfade, not a GIF —
+         sharper, a fifth of the weight, and it holds still for anyone who
+         asks for reduced motion (frame one only, no cycling). -->
     <figure class="aol-hero__figure">
-      <img src="assets/img/hero-morning-window-1400x1500.jpg"
-           alt="A woman standing at a tall window in morning light, head tipped back, laughing."
-           width="1400" height="1500" loading="eager" fetchpriority="high" decoding="async">
+      <div class="aol-reel" role="img"
+           aria-label="Ordinary days, rested: a woman laughing at a sunlit window, unhurried at a desk, a morning run, playing with a child, carrying the shopping home.">
+        <img class="aol-reel__f" src="assets/img/life-1-morning-640x800.jpg" alt=""
+             width="640" height="800" loading="eager" fetchpriority="high" decoding="async">
+        <img class="aol-reel__f" src="assets/img/life-2-work-640x800.jpg" alt=""
+             width="640" height="800" loading="lazy" decoding="async">
+        <img class="aol-reel__f" src="assets/img/life-3-run-640x800.jpg" alt=""
+             width="640" height="800" loading="lazy" decoding="async">
+        <img class="aol-reel__f" src="assets/img/life-4-kids-640x800.jpg" alt=""
+             width="640" height="800" loading="lazy" decoding="async">
+        <img class="aol-reel__f" src="assets/img/life-5-errands-640x800.jpg" alt=""
+             width="640" height="800" loading="lazy" decoding="async">
+      </div>
     </figure>
 
   </div>
@@ -193,13 +197,13 @@
   <div class="aol-shell">
     <div class="aol-sectionhead">
       <p class="aol-kicker">The protocol</p>
-      <h2 class="aol-h2" id="aol-protocol-title">Four evenings. Then it's yours.</h2>
+      <h2 class="aol-h2" id="aol-protocol-title">Four evenings. Then it's yours.</h2><!-- [CONFIRM: session count — must match the FAQ answer] -->
     </div>
 
     <div class="aol-protocol__media" data-aol-reveal>
       <figure class="aol-protocol__figure">
-        <img src="assets/img/group-session-1600x900.jpg"
-             alt="A group seated together in a bright, daylit room during a guided session."
+        <img src="assets/img/session-at-home-1600x900.jpg"
+             alt="A woman on a mat in a bright living room, stretching forward, an open laptop in front of her."
              width="1600" height="900" loading="lazy" decoding="async">
       </figure>
       <figure class="aol-protocol__inset">
@@ -389,8 +393,12 @@
         the mind, and that nobody should have to pay a fortune to learn it. The practices in this
         course come out of that work.
       </p>
+      <!-- Verified against the Art of Living's own site:
+           artofliving.org/us-en/meditation/srisri-meditation/deep-rest-meditation
+           attributed to Gurudev, first published in Rishimukh. -->
       <blockquote class="aol-gurudev__quote">
-        <p>&ldquo;Love is not an emotion. It is your very existence.&rdquo;</p>
+        <p>&ldquo;The rest in meditation is deeper than the deepest sleep that you can ever have.&rdquo;</p>
+        <cite class="aol-gurudev__cite">Gurudev</cite>
       </blockquote>
       <p class="aol-body aol-gurudev__p">
         Gurudev will not be teaching your sessions. A certified instructor will, live and online.
@@ -455,7 +463,7 @@
   <div class="aol-shell aol-shell--narrow">
     <div class="aol-sectionhead">
       <p class="aol-kicker">Questions</p>
-      <h2 class="aol-h2" id="aol-faq-title">The ten people actually ask</h2>
+      <h2 class="aol-h2" id="aol-faq-title">Common questions</h2>
     </div>
 
     <!-- Native <details>/<summary>: free keyboard and screen-reader support,
@@ -475,9 +483,9 @@
       <details class="aol-qa" data-aol-faq="time">
         <summary class="aol-qa__q"><span>How much time does this take?</span><span class="aol-qa__chev" aria-hidden="true"></span></summary>
         <div class="aol-qa__a"><p class="aol-body">
-          A few evenings up front, about 90 minutes each.<!-- [CONFIRM: count and length] --> Then
-          ten minutes a day. If ten minutes a day is genuinely not available, this isn't the right
-          thing to buy.
+          Four evenings up front, about 90 minutes each.<!-- [CONFIRM: session count and length —
+          must match the "Four evenings" heading in the protocol section] --> Then ten minutes a
+          day. If ten minutes a day is genuinely not available, this isn't the right thing to buy.
         </p></div>
       </details>
 

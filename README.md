@@ -13,7 +13,8 @@ cd "/Users/Nishant/Documents/Claude Code/AOL/landing" && python3 -m http.server 
 Then open <http://localhost:4173>. No build step, no npm, no framework — that is deliberate.
 
 Dev flags: `?aol-solo=<region>` renders one section alone (exactly how it will sit in its own
-Unbounce widget). `?aol-ship=1` hides the magenta placeholder outlines for screenshots.
+Unbounce widget). `?aol-draft=1` reveals the magenta outlines around unverified copy —
+they are hidden by default so a shared link never shows them.
 
 ---
 
@@ -25,7 +26,7 @@ assets/css/01-tokens.css   Brand tokens. :root only. Paste FIRST.
 assets/css/02-base.css     Scoped reset, six-step type scale, buttons, inheritance firewall.
 assets/css/03-sections.css Section blocks, then the Unbounce form skin. Paste LAST.
 assets/js/aol.js           One idempotent IIFE. Sticky bar, anchors, reveals, UTM, telemetry.
-assets/img/                6 files. Manifest and licence in IMAGES.md.
+assets/img/                10 files. Manifest and licence in IMAGES.md.
 IMAGES.md                  Every image: source, dimensions, alt text, and what to replace.
 UNBOUNCE.md                Port guide, gotchas, acceptance checklist, variant register.
 ```
@@ -170,8 +171,11 @@ for a named real person.
 
 ## Placeholders — 10 of them
 
-Anything unverified is marked `data-aol-placeholder` and outlined in **dashed magenta**. Nothing else
-on the page is dashed or magenta.
+Anything unverified is marked `data-aol-placeholder`. Add **`?aol-draft=1`** to outline them in
+dashed magenta; they are hidden by default, so a link you share never shows boxes around real copy.
+
+The release gate is the grep below, **not** the outline — hiding the marker changes nothing about
+what ships.
 
 ```bash
 # 10 unverified content markers, plus the local placeholder form that the
@@ -242,10 +246,10 @@ element class is now `aol-page`.
 | `html lang` | empty | `en` |
 | Landmarks | none | main, header, footer, nav |
 | Links with no accessible name | 44 | 0 |
-| Images with no alt | 47 of 49 | 0 of 6 |
+| Images with no alt | 47 of 49 | 0 of 11 |
 | Tap targets under 24px | 45 | 0 |
 | Inline `style=` attributes | 462 | 0 authored |
-| DOM nodes | 1,307 | 289 |
+| DOM nodes | 1,307 | 292 |
 | Primary CTA contrast | 2.55:1 | 6.09:1 |
 | Lowest text contrast | 1.67:1 | 5.12:1 |
 | Forms | 0 | 1 + sticky path |
