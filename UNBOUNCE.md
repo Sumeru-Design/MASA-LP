@@ -80,7 +80,7 @@ Afterwards, search the published page source for `assets/img/` — **zero result
 | Setting | Value |
 |---|---|
 | Title | `Sleep & Anxiety Protocol \| The Art of Living` |
-| Meta description | `SKY Breath Meditation, taught live by a certified instructor. Ten minutes a day after that. $149.` |
+| Meta description | `Live online sessions with a certified instructor and a small group. Breathing, movement and guided meditation, from your own home. $149.` |
 | Robots | `noindex, nofollow` for the paid page. Remove it if this becomes the organic entry. |
 | `html lang` | `en` — set it in the SEO panel if available; otherwise add `document.documentElement.lang='en'` to a head-placement script. **[UNVERIFIED]** |
 | OG image | `hero-morning-window-1400x1500.jpg`, width `1400`, height `1500` |
@@ -245,6 +245,8 @@ both purples pass (6.08:1 vs 6.09:1 with a white label). Worth settling at sourc
 | Landmarks cannot span sibling widgets → `role="main"` shim, no-ops locally | **[DESIGNED]** |
 | Widgets are siblings, not nestable → the form-slot contract | **[UNVERIFIED]** — §2 canary |
 | `.lp-pom-root` may not be the right container for the landmark shim | **[UNVERIFIED]** — resolved defensively (`|| document.body`) |
+| Hero sunrise is pure CSS on `.aol-sunrise` — it ports with the stylesheet, needs no JS, and animates only `transform`/`opacity` | **[DESIGNED]** |
+| An overflow check that measures element rects will flag the sunrise glow, which is clipped by `overflow:hidden` on purpose. Skip elements inside a clipped ancestor. | **[VERIFIED]** |
 | **Never put `overflow-x: hidden` on `body`** — it makes body a scroll container, pins `window.scrollY` at 0 and silently kills every scroll-linked behaviour | **[VERIFIED]** — hit during build; see §13 |
 | Builder preview ≠ published page. Always verify on the live URL. | **[VERIFIED]** |
 
@@ -303,18 +305,19 @@ document.getElementsByTagName('*').length
 | Horizontally overflowing elements | — | **0** at 1440 / 390 / 320 | 0 |
 | Authored inline `style=` attributes | 462 | **0** | 0 |
 | `<style>` tags | — | **0** | 0 |
-| DOM nodes | 1307 | **282** | < 600 |
+| DOM nodes | 1307 | **289** | < 600 |
 | Primary CTA contrast | **2.55:1** | **6.09:1** | ≥ 4.5:1 |
 | Lowest text contrast anywhere | 1.67:1 | **5.12:1** | ≥ 4.5:1 |
 | Longest stretch with no CTA (desktop) | 2,334px | **1,522px** | minimise |
-| Page height (desktop) | 9,745px | **7,438px** | — |
+| Page height (desktop) | 9,745px | **7,548px** | — |
 
 Also confirm by hand:
 
 - **Keyboard only.** Tab through the page. Visible focus ring everywhere; the sticky bar is reachable
   and last in tab order; the FAQ opens with Enter/Space; anchor jumps land focus on the target.
-- **Reduced motion.** Emulate `prefers-reduced-motion: reduce` — nothing animates, and reveal
-  elements are visible immediately.
+- **Reduced motion.** Emulate `prefers-reduced-motion: reduce` — nothing animates, reveal elements
+  are visible immediately, and the hero sunrise renders in its final risen position rather than
+  playing. It must be *off*, not slowed.
 - **Script blocked.** Disable JavaScript. The page must still render complete and still sell:
   every element is visible by default and the sticky bar simply does not appear.
 - **Sticky bar.** Hidden while the hero CTA is on screen; visible through the body of the page;

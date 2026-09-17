@@ -54,6 +54,33 @@ Premium and conversion then come from specificity, evidence and generosity — n
 
 ---
 
+## What the course actually is
+
+Worth stating plainly, because an earlier draft of this page got it wrong:
+
+- **Live and online.** Participants join a certified instructor and a small group from home, at a
+  set time. Not a video course, and not an in-person class — so no copy anywhere says "near you",
+  "in your city" or "walk into".
+- **Breathing exercises, some gentle movement, and a guided meditation.** That is the method.
+- **It does NOT teach SKY Breath Meditation.** See the warning below.
+- Most participants report better sleep after the very first session — the strongest line on the
+  page, and flagged as a placeholder until someone can substantiate it.
+
+### ⚠️ Do not cite SKY research here
+
+An earlier version of the evidence section claimed *"SKY Breath Meditation has been studied in more
+than 150 independent, peer-reviewed papers."* That claim is now removed, and there is a warning
+comment above the section in `index.html` saying why.
+
+The 150+ figure is real, and it is the Art of Living's own — but it belongs to **SKY**, and this
+course does not teach SKY. Citing a technique's research base for a product that does not contain
+that technique is precisely the failure the section's own "Where the research stops" paragraph
+exists to prevent. It would also be an implied clinical claim on a health-adjacent page with Meta
+pixels on it.
+
+The section now points at the practices the course *does* use, with three `[CONFIRM]` slots. If the
+Art of Living holds research on the Sleep & Anxiety Protocol itself, that is what goes there.
+
 ## The one rule that governs the page
 
 The old CTA was white on `#FF7E00` — **2.55:1**, below even the 3:1 large-text floor, on every
@@ -218,16 +245,16 @@ element class is now `aol-page`.
 | Images with no alt | 47 of 49 | 0 of 6 |
 | Tap targets under 24px | 45 | 0 |
 | Inline `style=` attributes | 462 | 0 authored |
-| DOM nodes | 1,307 | 282 |
+| DOM nodes | 1,307 | 289 |
 | Primary CTA contrast | 2.55:1 | 6.09:1 |
 | Lowest text contrast | 1.67:1 | 5.12:1 |
 | Forms | 0 | 1 + sticky path |
 | CTA labels | 10 | 2 |
-| Page height (desktop) | 9,745px | 7,438px |
+| Page height (desktop) | 9,745px | 7,548px |
 | Longest stretch with no CTA | 2,334px | 1,522px |
 | `prefers-reduced-motion` support | 0 of 29 stylesheets | full |
 
-**Page height is 7,438px on desktop, against the old page's 9,745px** — a 24% shorter scroll.
+**Page height is 7,548px on desktop, against the old page's 9,745px** — a 24% shorter scroll.
 The first cut got it to 10,400px; a second pass removed the testimonials, "complete experience"
 and closing sections, compacted the hero, and dropped the page a further 29%.
 

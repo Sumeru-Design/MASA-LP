@@ -41,6 +41,90 @@
   .aol-header__actions { display: none; }  /* the sticky bar covers mobile */
 }
 
+/* ================================================================ SUNRISE
+   The brand's visual north star, rendered rather than described. A warm disc
+   rises behind the hero over about six seconds and settles — one rise, no
+   loop. Two layers: a soft atmospheric glow and the disc itself.
+
+   Constraints it has to meet:
+   - Decorative only. aria-hidden, behind the content, never a text colour.
+   - Animates only `transform` and `opacity`, so it stays off the main thread
+     and cannot affect LCP or cause layout shift.
+   - Contrast is unaffected: the disc sits under the figure column, not under
+     the headline, and the warm tints it paints are all lighter than the
+     hero's own --aol-grad-wash background.
+   - Silent under prefers-reduced-motion — not slowed, not shortened. Off,
+     with the final state shown immediately.
+   ====================================================================== */
+.aol-sunrise {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: inherit;
+}
+.aol-sunrise__disc,
+.aol-sunrise__glow { position: absolute; border-radius: 50%; }
+
+/* The disc. Sits low and right, behind the hero image column. */
+.aol-sunrise__disc {
+  left: 55%;
+  bottom: 0;
+  width: clamp(8rem, 13vw, 13rem);
+  aspect-ratio: 1;
+  transform: translate(-50%, 70%);
+  background: radial-gradient(circle at 50% 50%,
+              rgba(254, 200, 69, 0.78) 0%,
+              rgba(249, 157, 34, 0.46) 48%,
+              rgba(245, 134, 95, 0.14) 72%,
+              rgba(245, 134, 95, 0) 78%);
+  filter: blur(6px);
+  opacity: 0;
+}
+/* The atmosphere around it — wider, fainter, rises a touch slower. */
+.aol-sunrise__glow {
+  left: 60%;
+  bottom: -14%;
+  width: clamp(24rem, 58vw, 54rem);
+  aspect-ratio: 1;
+  transform: translate(-50%, 50%);
+  background: radial-gradient(circle at 50% 50%,
+              rgba(254, 200, 69, 0.18) 0%,
+              rgba(245, 134, 95, 0.10) 42%,
+              rgba(126, 77, 159, 0.035) 66%,
+              rgba(255, 255, 255, 0) 74%);
+  opacity: 0;
+}
+
+/* Hero content must sit above the sun. */
+.aol-hero > .aol-shell { position: relative; z-index: 1; }
+@media (max-width: 63.99em) {
+  .aol-sunrise__disc { left: 78%; width: clamp(7rem, 26vw, 11rem); }
+  .aol-sunrise__glow { left: 78%; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .aol-sunrise__disc { animation: aol-rise 6s cubic-bezier(.16,.72,.28,1) 220ms both; }
+  .aol-sunrise__glow { animation: aol-rise-glow 7.5s cubic-bezier(.16,.72,.28,1) 60ms both; }
+}
+/* Ends half-clipped by the section's bottom edge, so it reads as a sun on a
+   horizon rather than a circle floating in the layout — the same gesture as
+   the sun in the logo. */
+@keyframes aol-rise {
+  from { transform: translate(-50%, 70%); opacity: 0; }
+  to   { transform: translate(-50%, 24%); opacity: 1; }
+}
+@keyframes aol-rise-glow {
+  from { transform: translate(-50%, 50%); opacity: 0; }
+  to   { transform: translate(-50%, 10%); opacity: 1; }
+}
+/* No animation requested, or no JS/CSS animation support: show it risen. */
+@media (prefers-reduced-motion: reduce) {
+  .aol-sunrise__disc { transform: translate(-50%, 24%); opacity: 1; animation: none; }
+  .aol-sunrise__glow { transform: translate(-50%, 10%); opacity: 1; animation: none; }
+}
+
 /* =================================================================== HERO */
 .aol-hero {
   --aol-section-bg: var(--aol-grad-wash);
@@ -63,7 +147,16 @@
 /* register: UNBOUNCE.md §15 — beats the :where() zero-specificity margin
    reset in 02-base.css, which is intentionally overridable but sits at the
    same specificity as this block class. Cheaper than raising the reset. */
-.aol-hero__sub { margin-bottom: var(--aol-sp-5) !important; }
+.aol-hero__sub { margin-bottom: var(--aol-sp-4) !important; }
+.aol-hero__first {
+  margin-bottom: var(--aol-sp-5) !important;
+  padding-left: var(--aol-sp-4);
+  border-left: 3px solid var(--aol-golden);
+  font-size: var(--aol-fs-body);
+  font-weight: 500;
+  color: var(--aol-ink);
+  max-width: 34rem;
+}
 
 .aol-hero__figure {
   border-radius: var(--aol-radius-lg);
@@ -258,8 +351,15 @@
 .aol-gurudev__figure img { width: 100%; height: auto; }
 .aol-gurudev__cap {
   position: absolute; inset: auto 0 0 0;
-  padding: var(--aol-sp-5) var(--aol-sp-4) var(--aol-sp-3);
-  background: linear-gradient(0deg, rgba(42,27,53,.72) 0%, rgba(42,27,53,0) 100%);
+  /* The scrim must stay strong THROUGH the text, not fade across it. The
+     fade lives in the empty padding above the caption. Worst case — a pure
+     white patch of photo underneath — is white on rgba(42,27,53,.84),
+     which composites to #4E4157 and measures 9.3:1. */
+  padding: var(--aol-sp-7) var(--aol-sp-4) var(--aol-sp-3);
+  background: linear-gradient(0deg,
+              rgba(42,27,53,.90) 0%,
+              rgba(42,27,53,.84) 70%,
+              rgba(42,27,53,0)  100%);
   color: var(--aol-white);
   font-size: var(--aol-fs-small);
   font-weight: 500;
