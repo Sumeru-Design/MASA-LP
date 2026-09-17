@@ -25,7 +25,7 @@ assets/css/01-tokens.css   Brand tokens. :root only. Paste FIRST.
 assets/css/02-base.css     Scoped reset, six-step type scale, buttons, inheritance firewall.
 assets/css/03-sections.css Section blocks, then the Unbounce form skin. Paste LAST.
 assets/js/aol.js           One idempotent IIFE. Sticky bar, anchors, reveals, UTM, telemetry.
-assets/img/                8 files. Manifest and licence in IMAGES.md.
+assets/img/                6 files. Manifest and licence in IMAGES.md.
 IMAGES.md                  Every image: source, dimensions, alt text, and what to replace.
 UNBOUNCE.md                Port guide, gotchas, acceptance checklist, variant register.
 ```
@@ -77,7 +77,7 @@ Lowest text contrast anywhere on the finished page: **5.12:1**.
 
 ## Conversion architecture
 
-Primary path: **`Start the Protocol`**, used identically 8 times plus the sticky bar, always as a
+Primary path: **`Start the Protocol`**, used identically 5 times plus the sticky bar, always as a
 block — price above, button, then `Checkout opens on members.us.artofliving.org` beneath. An
 unannounced jump to another domain is a top abandonment cause; naming it costs nothing.
 
@@ -90,8 +90,8 @@ Ten CTA labels on the old pages became two.
 getting out of bed. It is useful at 3 a.m. tonight, before anyone buys anything. Generosity is the
 premium lever the brand permits; pressure is the one it forbids.
 
-Three inline capture moments, **zero interstitials**. No exit-intent modal — an exit-intent modal
-*is* "don't miss out" rendered as a UI component.
+One inline capture section plus a persistent link in the sticky bar, **zero interstitials**.
+No exit-intent modal — an exit-intent modal *is* "don't miss out" rendered as a UI component.
 
 **Replacing "Limited Time Offer".** The old claim had no date, no countdown and no seat count. An
 urgency claim that never resolves trains people to ignore every future claim you make. §10 carries
@@ -118,35 +118,36 @@ your sleep.* Everyone selling wellness claims research; almost nobody says where
 sentence is the most premium thing on the page, and it keeps the ad account clear of Meta's
 health-attribution policy.
 
-### Testimonials
+### Testimonials — cut, on purpose
 
-The old failure was four failures at once: a product name that didn't exist, two incompatible
-stories under one name, a stock portrait, and no date. The fix is a schema, not better copy.
+The old page carried a "Daniel K" testimonial that failed four ways at once: a product name that
+didn't exist, two incompatible stories under one name across the two pages, a stock portrait, and
+no date.
+
+The section is **gone** rather than fixed. Testimonials are among the least persuasive things on a
+health-adjacent page — a reader who is weighing $149 discounts anonymous quotes almost instantly,
+and every one of them costs scroll. The research section does the same job with citable sources.
+
+If they ever come back, they come back with a schema, not better copywriting:
 
 ```
 first_name, last_initial     course_taken        ← validate against the live catalogue
 city_state                   course_date            at build time, so "Sleep & Calm Reset"
-quote        ≤ 45 words       quote_consent_date     can never be published again
+quote        ≤ 45 words      quote_consent_date     can never be published again
 photo_path   real or null    photo_consent_date  ← required if photo_path is set
 verified_by
 ```
 
-Hard rules: nothing renders without `quote_consent_date`. **No stock face is in this repo**, so none
-can be left in by accident — cards render a typographic monogram instead, which looks deliberate.
+Hard rule: nothing renders without `quote_consent_date`, and a stock photograph may never stand in
+for a named real person.
 
-§7 currently ships the honest version: *"We used to run testimonials here that we couldn't fully
-stand behind. We took them down."* That converts better than fabricated proof and it is the kind of
-thing people screenshot. Swap it for real quotes as soon as you have consented ones.
-
----
-
-## Placeholders — 13 of them
+## Placeholders — 10 of them
 
 Anything unverified is marked `data-aol-placeholder` and outlined in **dashed magenta**. Nothing else
 on the page is dashed or magenta.
 
 ```bash
-# 13 unverified content markers, plus the local placeholder form that the
+# 10 unverified content markers, plus the local placeholder form that the
 # Unbounce Form widget replaces. Both must reach zero before launch.
 grep -c 'data-aol-placeholder[ >]'     index.html   # expect 0
 grep -c 'data-aol-placeholder-form'    index.html   # expect 0 after the form swap
@@ -214,29 +215,32 @@ element class is now `aol-page`.
 | `html lang` | empty | `en` |
 | Landmarks | none | main, header, footer, nav |
 | Links with no accessible name | 44 | 0 |
-| Images with no alt | 47 of 49 | 0 of 8 |
+| Images with no alt | 47 of 49 | 0 of 6 |
 | Tap targets under 24px | 45 | 0 |
 | Inline `style=` attributes | 462 | 0 authored |
-| DOM nodes | 1,307 | 335 |
+| DOM nodes | 1,307 | 282 |
 | Primary CTA contrast | 2.55:1 | 6.09:1 |
 | Lowest text contrast | 1.67:1 | 5.12:1 |
 | Forms | 0 | 1 + sticky path |
 | CTA labels | 10 | 2 |
+| Page height (desktop) | 9,745px | 7,438px |
 | Longest stretch with no CTA | 2,334px | 1,522px |
 | `prefers-reduced-motion` support | 0 of 29 stylesheets | full |
 
-**Page height is ~10,400px on desktop, against the old page's 9,745px** — longer, not shorter. The
-plan estimated ~7,300px; that estimate assumed fewer sections than this page ended up needing
-(14 regions, 7 images, a 10-question FAQ). The metric that actually affects conversion — the longest
-stretch with nothing to click — is down by a third, and the sticky bar covers even that. If length
-matters more than content, the honest cuts are the three thinnest sections (proof, Gurudev, voices),
-not tighter leading.
+**Page height is 7,438px on desktop, against the old page's 9,745px** — a 24% shorter scroll.
+The first cut got it to 10,400px; a second pass removed the testimonials, "complete experience"
+and closing sections, compacted the hero, and dropped the page a further 29%.
 
----
+At 1440×900 the fold now carries the logo, hook, headline, subhead, price, both CTAs **and** the
+full stats row. The hero is 600px, down from 974px.
+
+One honest caveat: the longest stretch without a CTA is 1,522px on desktop but **2,230px on mobile**,
+because a single-column stack is simply taller. The sticky bar covers that stretch, so there is never
+a moment with nothing to tap — but it is the number to watch if more content is ever added.
 
 ## Before launch
 
-1. Clear all 13 placeholders and every `[CONFIRM]`.
+1. Clear all 10 placeholders and every `[CONFIRM]`.
 2. Decide the `$449` question.
 3. Settle the palette hex discrepancy (`UNBOUNCE.md` §11).
 4. Replace the four stock stand-ins with real Art of Living photography (`IMAGES.md`).

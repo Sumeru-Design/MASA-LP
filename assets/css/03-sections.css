@@ -44,12 +44,12 @@
 /* =================================================================== HERO */
 .aol-hero {
   --aol-section-bg: var(--aol-grad-wash);
-  padding-block: clamp(1.5rem, 0.6rem + 3.6vw, 4rem) var(--aol-section-y);
+  padding-block: clamp(1.25rem, 0.5rem + 3vw, 3rem) clamp(2rem, 1.2rem + 3vw, 3.5rem);
   overflow: hidden;
 }
 .aol-hero__grid {
   display: grid;
-  gap: clamp(2rem, 1rem + 4vw, 4rem);
+  gap: clamp(1.5rem, 0.8rem + 2.8vw, 3rem);
   align-items: center;
 }
 .aol-hero__copy { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
@@ -57,13 +57,13 @@
 /* min-width:0 on every grid child. Without it a long word or a wide image
    sets the column's min-content width and the whole section overflows the
    viewport — which body{overflow-x:hidden} would then silently clip. */
-.aol-hero__grid > *, .aol-problem__grid > *, .aol-complete__grid > *,
+.aol-hero__grid > *, .aol-problem__grid > *, .aol-gurudev__grid > *,
 .aol-enroll__grid > * { min-width: 0; }
-.aol-hero__title { margin-block: var(--aol-sp-4) var(--aol-sp-5) !important; }
+.aol-hero__title { margin-block: var(--aol-sp-3) var(--aol-sp-4) !important; }
 /* register: UNBOUNCE.md §15 — beats the :where() zero-specificity margin
    reset in 02-base.css, which is intentionally overridable but sits at the
    same specificity as this block class. Cheaper than raising the reset. */
-.aol-hero__sub { margin-bottom: var(--aol-sp-6) !important; }
+.aol-hero__sub { margin-bottom: var(--aol-sp-5) !important; }
 
 .aol-hero__figure {
   border-radius: var(--aol-radius-lg);
@@ -72,34 +72,11 @@
 }
 .aol-hero__figure img { width: 100%; height: 100%; object-fit: cover; }
 
-.aol-hero__bullets {
-  display: flex;
-  flex-direction: column;
-  gap: var(--aol-sp-3);
-  margin-top: var(--aol-sp-7) !important;
-  padding-top: var(--aol-sp-6) !important;
-  border-top: 1px solid var(--aol-rule);
-  width: 100%;
-  max-width: 34rem;
-}
-.aol-hero__bullet {
-  position: relative;
-  padding-left: var(--aol-sp-6);
-  font-size: var(--aol-fs-body);
-  color: var(--aol-ink-muted);
-}
-.aol-hero__bullet::before {
-  content: "";
-  position: absolute;
-  left: 0; top: 0.55em;
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  background: var(--aol-grad-sunrise);
-}
 
 @media (min-width: 64em) {
-  .aol-hero__grid { grid-template-columns: 1.05fr 0.95fr; }
-  .aol-hero__figure { aspect-ratio: 14 / 15; }
+  .aol-hero__grid { grid-template-columns: 1.2fr 0.8fr; }
+  .aol-hero__figure { aspect-ratio: 4 / 5; }
+  .aol-hero__title { font-size: clamp(2.5rem, 1.1rem + 2.2vw, 3.125rem); }
 }
 @media (max-width: 63.99em) {
   .aol-hero__figure { aspect-ratio: 16 / 11; }
@@ -121,6 +98,8 @@
 
 /* ============================================================== CTA GROUP */
 .aol-ctagroup { display: flex; flex-direction: column; align-items: flex-start; gap: var(--aol-sp-3); }
+.aol-hero__cta { flex-flow: row wrap; align-items: center; gap: var(--aol-sp-3) var(--aol-sp-5); }
+.aol-hero__cta .aol-ctagroup__note { flex: 1 1 100%; order: 3; }
 .aol-ctagroup__note { margin: 0 !important; }
 .aol-hero__cta { margin-top: var(--aol-sp-5); }
 /* STACK ORDER, desktop and mobile alike, straight from DOM order:
@@ -266,45 +245,36 @@
   font-weight: 500;
 }
 
-/* ================================================================= VOICES */
-.aol-voices { --aol-section-bg: var(--aol-surface-cream); }
-.aol-voices__note { max-width: var(--aol-measure); margin-bottom: var(--aol-sp-6); }
-.aol-voices__note .aol-body { margin-bottom: var(--aol-sp-4) !important; color: var(--aol-ink-muted); }
-.aol-voices__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--aol-sp-5); }
-.aol-voice {
-  display: flex; flex-direction: column; gap: var(--aol-sp-3);
-  padding: var(--aol-sp-5) !important;
-  background: var(--aol-surface);
-  border-radius: var(--aol-radius);
-  box-shadow: var(--aol-shadow-sm);
-}
-/* Typographic monogram, never a stock face. */
-.aol-voice__mono {
-  display: flex; align-items: center; justify-content: center;
-  width: 52px; height: 52px;
-  border-radius: 50%;
-  background: var(--aol-purple-20);
-  color: var(--aol-purple);
-  font-family: var(--aol-font-display);
-  font-size: 1.25rem;
-}
-.aol-voice__quote { font-family: var(--aol-font-display); font-size: var(--aol-fs-lead); color: var(--aol-ink); }
-.aol-voice__who { font-size: var(--aol-fs-small); color: var(--aol-ink-muted); }
-
-/* =============================================================== COMPLETE */
-.aol-complete__grid { display: grid; gap: clamp(2rem, 1rem + 4vw, 4rem); align-items: center; }
-.aol-complete__copy > .aol-h2 { margin-block: var(--aol-sp-3) var(--aol-sp-5) !important; }
-.aol-complete__p { margin-bottom: var(--aol-sp-4) !important; color: rgba(255,255,255,0.82); }
-.aol-complete__copy .aol-ctagroup { margin-top: var(--aol-sp-6); }
-.aol-complete__media { display: grid; gap: var(--aol-sp-4); }
-.aol-complete__figure { border-radius: var(--aol-radius-lg); overflow: hidden; box-shadow: var(--aol-shadow-lg); }
-.aol-complete__figure img { width: 100%; aspect-ratio: 16 / 8; object-fit: cover; object-position: 50% 32%; }
-@media (min-width: 64em) { .aol-complete__grid { grid-template-columns: 1fr 1fr; } }
-
 /* ================================================================ GURUDEV */
 .aol-gurudev { --aol-section-bg: var(--aol-surface); }
-.aol-gurudev > .aol-shell > .aol-h2 { margin-block: var(--aol-sp-3) var(--aol-sp-5) !important; }
+.aol-gurudev__grid { display: grid; gap: clamp(1.75rem, 1rem + 3vw, 3.5rem); align-items: center; }
+.aol-gurudev__figure {
+  position: relative;
+  max-width: 340px;
+  border-radius: var(--aol-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--aol-shadow-lg);
+}
+.aol-gurudev__figure img { width: 100%; height: auto; }
+.aol-gurudev__cap {
+  position: absolute; inset: auto 0 0 0;
+  padding: var(--aol-sp-5) var(--aol-sp-4) var(--aol-sp-3);
+  background: linear-gradient(0deg, rgba(42,27,53,.72) 0%, rgba(42,27,53,0) 100%);
+  color: var(--aol-white);
+  font-size: var(--aol-fs-small);
+  font-weight: 500;
+}
+.aol-gurudev__copy > .aol-h2 { margin-block: var(--aol-sp-3) var(--aol-sp-5) !important; }
 .aol-gurudev__p { margin-bottom: var(--aol-sp-4) !important; color: var(--aol-ink-muted); }
+.aol-gurudev__quote {
+  margin-block: var(--aol-sp-5) !important;
+  padding-left: var(--aol-sp-5);
+  border-left: 3px solid var(--aol-golden);
+  font-family: var(--aol-font-display);
+  font-size: var(--aol-fs-lead);
+  color: var(--aol-ink);
+}
+@media (min-width: 48em) { .aol-gurudev__grid { grid-template-columns: 340px 1fr; } }
 
 /* ================================================================= ENROLL */
 .aol-enroll { --aol-section-bg: var(--aol-grad-wash-up); }
@@ -378,27 +348,6 @@
 .aol-qa__a { padding-bottom: var(--aol-sp-5); }
 .aol-qa__a .aol-body { color: var(--aol-ink-muted); margin-bottom: var(--aol-sp-3) !important; }
 .aol-faq__cta { margin-top: var(--aol-sp-8); align-items: center; }
-
-/* ================================================================== CLOSE */
-.aol-close { --aol-section-bg: var(--aol-surface-cream); padding-top: 0; }
-.aol-close__figure { margin-bottom: var(--aol-section-y); }
-/* Wide bands crop a 16:9 source vertically. Centre-cropping a 4:1 band cut
-   every face out of frame, so the ratio is gentler and the focal point sits
-   above centre — faces stay in shot. Brand rule: prioritise faces. */
-.aol-close__figure img { width: 100%; aspect-ratio: 3 / 1; object-fit: cover; object-position: 50% 22%; }
-.aol-close > .aol-shell > .aol-h2 { margin-bottom: var(--aol-sp-5) !important; }
-.aol-close__p { margin-bottom: var(--aol-sp-4) !important; color: var(--aol-ink-muted); }
-.aol-close__p.aol-em { color: var(--aol-ink); font-size: var(--aol-fs-lead); }
-.aol-close__cta {
-  margin-block: var(--aol-sp-7) !important;
-  padding: var(--aol-sp-6);
-  background: var(--aol-surface);
-  border-radius: var(--aol-radius-lg);
-  box-shadow: var(--aol-shadow);
-  align-items: flex-start;
-}
-.aol-close__guide { color: var(--aol-ink-muted); }
-@media (max-width: 47.99em) { .aol-close__figure img { aspect-ratio: 16 / 10; } }
 
 /* ================================================================= FOOTER */
 .aol-footer {
@@ -533,8 +482,3 @@ html:not(.aol-js) .aol-sticky { display: none; }
   min-height: 52px;
   border-radius: var(--aol-radius-sm);
 }
-
-/* Closes the longest stretch without an enrolment CTA. Measured: without it
-   the gap from the protocol CTA to the "not an app" CTA runs 3,634px — worse
-   than the 2,334px dead zone the audit flagged on the old organic page. */
-.aol-voices__cta { margin-top: var(--aol-sp-7); align-items: center; }

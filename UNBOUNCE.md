@@ -68,7 +68,7 @@ answers in §12. Specifically you are learning:
 
 ## 3. Assets
 
-Upload everything in `assets/img/` (8 files — see `IMAGES.md` for the manifest).
+Upload everything in `assets/img/` (6 files — see `IMAGES.md` for the manifest).
 
 Then find-and-replace the prefix `assets/img/` with the Unbounce CDN base in every block you paste.
 Afterwards, search the published page source for `assets/img/` — **zero results expected.**
@@ -118,20 +118,20 @@ widget-painted background will not span the viewport.
 | # | Region | Section background | Notes |
 |---|---|---|---|
 | 00 | `00-header` | transparent | Logo + one CTA. No mega-nav. |
-| 01 | `01-hero` | `--aol-grad-wash` | Contains the only `<h1>`. Price is above the fold by design. |
+| 01 | `01-hero` | `--aol-grad-wash` | The only `<h1>`. Price above the fold by design; the stats row below it also clears the fold at 1440×900. |
 | 02 | `02-proof` | `--aol-surface` | One stats row, rendered once. |
-| 03 | `03-problem` | `--aol-surface-cream` | |
+| 03 | `03-problem` | `--aol-surface-cream` | "Everything you give comes from somewhere." |
 | 04 | `04-protocol` | `--aol-surface` | Inset image overhangs — give the widget headroom. |
 | 05 | `05-evidence` | `--aol-surface-blush` | No photograph, deliberately. |
 | 06 | `06-guide` | `--aol-surface` | **Contains the form slot — see §8.** |
-| 07 | `07-voices` | `--aol-surface-cream` | |
-| 08 | `08-complete` | `--aol-surface-deep` | Dark section; CTA is golden with ink label. |
-| 09 | `09-gurudev` | `--aol-surface` | |
+| 09 | `09-gurudev` | `--aol-surface` | Portrait + quote. Numbering keeps the original gaps so region names stay stable. |
 | 10 | `10-enroll` | `--aol-grad-wash-up` | |
-| 11 | `11-faq` | `--aol-surface` | Native `<details>`. |
-| 12 | `12-close` | `--aol-surface-cream` | Full-bleed image at the top. |
+| 11 | `11-faq` | `--aol-surface` | Native `<details>`. Its CTA carries `data-aol-sticky-hide-at` — it is the last CTA on the page. |
 | 13 | `13-footer` | `--aol-surface` | 11 links maximum. |
 | — | `sticky` | — | **Not a section.** Paste once, anywhere; `aol.js` moves it to `<body>`. |
+
+Regions `07-voices`, `08-complete` and `12-close` were cut. Their numbers are deliberately **not**
+reused, so a region name always means the same block.
 
 ---
 
@@ -298,16 +298,16 @@ document.getElementsByTagName('*').length
 | `html lang` | empty | **en** | en |
 | Landmarks | none | **main, header, footer, nav** | all |
 | Links with no accessible name | 44 | **0** | 0 |
-| Images with no alt | 47 of 49 | **0 of 8** | 0 |
+| Images with no alt | 47 of 49 | **0 of 6** | 0 |
 | Tap targets under 24px | 45 | **0** | 0 |
 | Horizontally overflowing elements | — | **0** at 1440 / 390 / 320 | 0 |
 | Authored inline `style=` attributes | 462 | **0** | 0 |
 | `<style>` tags | — | **0** | 0 |
-| DOM nodes | 1307 | **335** | < 600 |
+| DOM nodes | 1307 | **282** | < 600 |
 | Primary CTA contrast | **2.55:1** | **6.09:1** | ≥ 4.5:1 |
 | Lowest text contrast anywhere | 1.67:1 | **5.12:1** | ≥ 4.5:1 |
-| Longest stretch with no CTA | 2,334px | **1,522px** | minimise |
-| Page height (desktop) | 9,745px | **~10,400px** | — |
+| Longest stretch with no CTA (desktop) | 2,334px | **1,522px** | minimise |
+| Page height (desktop) | 9,745px | **7,438px** | — |
 
 Also confirm by hand:
 
@@ -319,7 +319,7 @@ Also confirm by hand:
   every element is visible by default and the sticky bar simply does not appear.
 - **Sticky bar.** Hidden while the hero CTA is on screen; visible through the body of the page;
   **hidden again once the closing CTA comes into view**, so it never covers the real button.
-- `?aol-solo=<region>` on all 14 regions — each must render correctly alone, which is exactly how
+- `?aol-solo=<region>` on all 10 regions — each must render correctly alone, which is exactly how
   it will sit inside its own widget.
 
 ---
