@@ -1,0 +1,332 @@
+/* ==========================================================================
+   02-base.css — scoped reset, type scale, buttons, the inheritance firewall.
+
+   EVERY selector here is scoped to .aol-* or to a :root-level concern.
+   There are NO bare element selectors (h2 {}, p {}, img {}) anywhere in this
+   file or in 03-sections.css. A bare selector would style Unbounce's own
+   text and button widgets sitting elsewhere on the canvas.
+
+   Specificity ladder — escalate only as far as you need, never further:
+     1. one class                       .aol-btn                   (0,1,0)
+     2. :where() for resets             zero specificity — anything overrides
+     3. double the class                .aol-btn.aol-btn           (0,2,0)
+     4. scope under Unbounce's root     .lp-pom-root .aol-btn
+     5. !important — last resort, and log it in UNBOUNCE.md §15.
+        That register should still be empty at launch.
+
+   DO NOT USE @layer. Cascade layers rank BELOW unlayered styles, so a
+   layered .aol-btn rule would lose to any unlayered Unbounce rule,
+   including its normalize. Layers are the wrong direction here.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- DOCUMENT
+   The only rules on the page allowed outside .aol-*. Kept to the minimum,
+   because on the live page html/body belong to Unbounce.
+   -------------------------------------------------------------------- */
+html.aol-doc {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.aol-doc { scroll-behavior: auto; }
+}
+body.aol-page {
+  margin: 0;
+  background: var(--aol-surface);
+  color: var(--aol-ink);
+  font-family: var(--aol-font-ui);
+  font-size: var(--aol-fs-body);
+  line-height: var(--aol-lh-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* NOTE: do NOT put overflow-x:hidden on body. It makes body a scroll
+   container, which pins window.scrollY at 0 and silently breaks every
+   scroll-linked behaviour (the sticky bar's IntersectionObserver sentinels
+   stopped firing entirely). It also hides real layout overflow instead of
+   surfacing it — the H1 was overflowing at 390px and nothing reported it.
+   Horizontal overflow is verified numerically instead: see README → QA. */
+
+/* ====================================================== INHERITANCE FIREWALL
+   The most valuable rule in the stylesheet.
+
+   In Unbounce each section lands inside a Custom HTML widget whose wrapper
+   may set font-family, font-size, line-height, color, text-align,
+   letter-spacing, font-weight or text-transform. Re-declaring all of them
+   on .aol-section means everything inside inherits from a known baseline
+   regardless of what the wrapper does — so the live page matches the local
+   file without a single !important.
+   ======================================================================== */
+.aol-section {
+  box-sizing: border-box;
+  font-family: var(--aol-font-ui);
+  font-size: var(--aol-fs-body);
+  font-weight: 400;
+  font-style: normal;
+  line-height: var(--aol-lh-body);
+  letter-spacing: normal;
+  text-align: start;
+  text-transform: none;
+  text-indent: 0;
+  color: var(--aol-ink);
+  background: var(--aol-section-bg, transparent);
+  position: relative;
+  overflow: visible;        /* never let a widget wrapper clip content */
+  padding-block: var(--aol-section-y);
+}
+.aol-section *,
+.aol-section *::before,
+.aol-section *::after { box-sizing: border-box; }
+
+/* The header and the sticky bar live OUTSIDE .aol-section — the bar is moved
+   to <body> on init. They need the same box-sizing and type baseline, or a
+   flex-basis:100% button inside the bar overflows its own container by the
+   width of its padding. Caught at 320px, the Unbounce mobile canvas. */
+.aol-header, .aol-sticky,
+.aol-header *, .aol-sticky *,
+.aol-header *::before, .aol-sticky *::before,
+.aol-header *::after, .aol-sticky *::after { box-sizing: border-box; }
+.aol-header, .aol-sticky {
+  font-family: var(--aol-font-ui);
+  font-size: var(--aol-fs-body);
+  font-weight: 400;
+  line-height: var(--aol-lh-body);
+  letter-spacing: normal;
+  text-align: start;
+  text-transform: none;
+  color: var(--aol-ink);
+}
+.aol-header :where(a), .aol-sticky :where(a) { color: inherit; text-decoration: none; }
+.aol-header :where(p), .aol-sticky :where(p) { margin: 0; }
+.aol-header :where(img), .aol-sticky :where(img) { display: block; max-width: 100%; height: auto; }
+
+/* Zero-specificity reset. :where() means ANY rule can override these —
+   including Unbounce's — so this can never cause a cascade fight. */
+.aol-section :where(h1, h2, h3, h4, p, ul, ol, li, figure, blockquote, dl, dd) {
+  margin: 0;
+  padding: 0;
+}
+.aol-section :where(ul, ol) { list-style: none; }
+.aol-section :where(img, picture, svg, video) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.aol-section :where(a) { color: inherit; text-decoration: none; }
+.aol-section :where(button, input, select, textarea) {
+  font: inherit;
+  color: inherit;
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------ SHELL
+   Repeated in EVERY section rather than being one page-level wrapper.
+   A page-level wrapper cannot survive the port: in Unbounce the sections
+   land in different widgets with no shared ancestor. ~12 extra elements,
+   and it is what makes each section render correctly in isolation.
+   -------------------------------------------------------------------- */
+.aol-shell {
+  width: 100%;
+  max-width: var(--aol-shell-max);
+  margin-inline: auto;
+  padding-inline: var(--aol-shell-pad);
+}
+.aol-shell--narrow { max-width: 760px; }
+
+/* ------------------------------------------------------------- TYPE SCALE
+   Six steps. That is the whole system.
+   -------------------------------------------------------------------- */
+.aol-display {
+  font-family: var(--aol-font-display);
+  font-size: var(--aol-fs-display);
+  font-weight: 500;
+  line-height: var(--aol-lh-display);
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  color: var(--aol-ink);
+}
+.aol-h2 {
+  font-family: var(--aol-font-display);
+  font-size: var(--aol-fs-h2);
+  font-weight: 500;
+  line-height: var(--aol-lh-heading);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  color: var(--aol-ink);
+}
+.aol-h3 {
+  font-family: var(--aol-font-ui);
+  font-size: var(--aol-fs-h3);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--aol-ink);
+}
+.aol-lead {
+  font-size: var(--aol-fs-lead);
+  line-height: 1.55;
+  color: var(--aol-ink-muted);
+  max-width: var(--aol-measure);
+  text-wrap: pretty;
+}
+.aol-body { font-size: var(--aol-fs-body); max-width: var(--aol-measure); text-wrap: pretty; }
+.aol-small { font-size: var(--aol-fs-small); font-weight: 500; color: var(--aol-ink-muted); }
+.aol-fine  { font-size: var(--aol-fs-small); color: var(--aol-ink-faint); }
+
+/* The only letterspaced style on the page. */
+.aol-kicker {
+  font-size: var(--aol-fs-small);
+  font-weight: 600;
+  letter-spacing: var(--aol-ls-kicker);
+  text-transform: uppercase;
+  color: var(--aol-purple);
+}
+.aol-kicker--on-dark { color: var(--aol-golden); }
+
+.aol-muted { color: var(--aol-ink-muted); }
+.aol-num   { font-variant-numeric: tabular-nums; }
+.aol-em    { font-weight: 600; color: var(--aol-ink); }
+
+/* ---------------------------------------------------------------- BUTTONS
+   The CTA contrast fix lives in the tokens, so it is applied once here and
+   inherited by every button on the page — rather than being re-decided per
+   button, which is how the old page ended up failing on all of them.
+   Minimum 48px tall: the audit found 45 tap targets under 24px.
+   -------------------------------------------------------------------- */
+.aol-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--aol-sp-2);
+  min-height: 52px;
+  padding: var(--aol-sp-3) var(--aol-sp-6);
+  border: 1px solid transparent;
+  border-radius: var(--aol-radius-pill);
+  font-family: var(--aol-font-ui);
+  font-size: var(--aol-fs-body);
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--aol-dur) var(--aol-ease),
+              transform var(--aol-dur) var(--aol-ease),
+              box-shadow var(--aol-dur) var(--aol-ease);
+}
+.aol-btn--primary {
+  background: var(--aol-cta-bg);
+  color: var(--aol-cta-fg);            /* 6.09:1 */
+  box-shadow: var(--aol-shadow);
+}
+.aol-btn--primary:hover  { background: var(--aol-cta-bg-hover);  box-shadow: var(--aol-shadow-lg); }
+.aol-btn--primary:active { background: var(--aol-cta-bg-active); transform: translateY(1px); }
+
+/* Golden fill carries INK, never white. 10.38:1. */
+.aol-btn--alt {
+  background: var(--aol-cta-alt-bg);
+  color: var(--aol-cta-alt-fg);
+  box-shadow: var(--aol-shadow-sm);
+}
+.aol-btn--alt:hover { background: #fdbb1e; }
+
+.aol-btn--ghost {
+  background: transparent;
+  color: var(--aol-purple);            /* 6.09:1 on white */
+  border-color: var(--aol-rule-strong);
+}
+.aol-btn--ghost:hover { background: var(--aol-purple-20); border-color: var(--aol-purple-60); }
+
+.aol-btn--block { width: 100%; }
+
+/* Secondary path. A link, never a second button — two buttons side by side
+   split attention; a button plus a link preserves hierarchy. */
+.aol-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--aol-sp-2);
+  min-height: 44px;
+  font-weight: 500;
+  color: var(--aol-purple);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color var(--aol-dur) var(--aol-ease);
+}
+.aol-link:hover { color: var(--aol-cta-bg-active); }
+.aol-link--on-dark { color: var(--aol-golden); }
+
+/* ------------------------------------------------------------------ FOCUS
+   Designed, not default. The old page had a :focus style in 2 of its 29
+   stylesheets.
+   -------------------------------------------------------------------- */
+.aol-section :where(a, button, summary, input, select, textarea, [tabindex]):focus-visible,
+.aol-sticky :where(a, button):focus-visible {
+  outline: 3px solid var(--aol-focus);
+  outline-offset: 3px;
+  border-radius: var(--aol-radius-sm);
+}
+.aol-section--dark :where(a, button, summary, input):focus-visible {
+  outline-color: var(--aol-focus-inverse);
+}
+
+/* Skip link — first thing in the tab order. */
+.aol-skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 999;
+  padding: var(--aol-sp-3) var(--aol-sp-5);
+  background: var(--aol-ink);
+  color: var(--aol-white);
+  border-radius: 0 0 var(--aol-radius-sm) 0;
+  font-weight: 600;
+}
+.aol-skip:focus { left: 0; }
+
+/* -------------------------------------------------------------- UTILITIES */
+.aol-vh {
+  position: absolute !important;   /* register: UNBOUNCE.md §15 — visually-
+                                      hidden util, standard pattern, safe */
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.aol-section--dark {
+  --aol-section-bg: var(--aol-surface-deep);
+  color: var(--aol-ink-on-dark);
+}
+.aol-section--dark .aol-h2,
+.aol-section--dark .aol-display { color: var(--aol-ink-on-dark); }
+.aol-section--dark .aol-lead,
+.aol-section--dark .aol-muted   { color: rgba(255, 255, 255, 0.82); }
+
+/* ------------------------------------------------------------------ MOTION
+   Reveal-on-scroll. THE SAFETY RULE: elements are visible by DEFAULT in
+   CSS. Hiding is gated behind .aol-js, which aol.js adds to <html>. If the
+   script is blocked, fails, or never loads, the page renders complete
+   rather than blank. Non-negotiable.
+   -------------------------------------------------------------------- */
+.aol-js [data-aol-reveal] {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity var(--aol-dur-slow) var(--aol-ease),
+              transform var(--aol-dur-slow) var(--aol-ease);
+}
+.aol-js [data-aol-reveal].is-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .aol-js [data-aol-reveal] { opacity: 1 !important; transform: none !important; }
+  /* register: UNBOUNCE.md §15 — must beat the .is-in transition above for
+     users who asked for no motion. This is the one place !important is
+     correct: a preference override should not be defeatable by author CSS. */
+  .aol-section *,
+  .aol-sticky * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

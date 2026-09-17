@@ -1,0 +1,188 @@
+/* ==========================================================================
+   Art of Living — Sleep & Anxiety Protocol
+   01-tokens.css — custom properties ONLY. No selectors beyond :root.
+
+   PASTE ORDER IN UNBOUNCE: this file FIRST, then 02-base.css, then
+   03-sections.css, all into the single Stylesheet panel. Do not include
+   <style> tags. Keep the comments — they are the section map.
+
+   Source of truth: Art of Living Visual Style Guide (May 2026), Appendix B
+   "Machine-readable design tokens". The guide states each colour twice with
+   slightly different values (prose table vs. tint ramps / Appendix B). We
+   use Appendix B throughout. See UNBOUNCE.md → "Palette discrepancy".
+
+   IF YOU NEED A VALUE THAT IS NOT IN THIS FILE, THE DESIGN IS WRONG.
+   Fix the design. Do not add a token.
+   ========================================================================== */
+
+:root {
+
+  /* ---------------------------------------------------------------- COLOUR
+     Token names encode PERMITTED USE, not appearance. This is deliberate:
+     a token named --aol-rule cannot plausibly be typed into a color:
+     property by accident. A token named --aol-grey-300 can — which is how
+     the old page ended up with nine near-identical greys.
+
+     Contrast ratios below are WCAG 2.1, computed against the stated
+     background. Every pairing used on the page passes AA (4.5:1).
+     -------------------------------------------------------------------- */
+
+  /* Brand core — the five sunrise colours */
+  --aol-white:       #ffffff;  /* Pure White           · Space              */
+  --aol-coral:       #f5865f;  /* Coral Bliss          · Heritage, Love     */
+  --aol-purple:      #7e4d9f;  /* Royal Purple         · Sky, Hope          */
+  --aol-tangerine:   #f99d22;  /* Delightful Tangerine · People, Community  */
+  --aol-golden:      #fec845;  /* Golden Yellow        · Horizon, Meditation*/
+
+  /* Brand tints — base blended toward white at 80/60/40/20% */
+  --aol-coral-80:     #f79e7f;
+  --aol-coral-60:     #f9b69f;
+  --aol-coral-40:     #fbcfbf;
+  --aol-coral-20:     #fde7df;
+  --aol-purple-80:    #9871b2;
+  --aol-purple-60:    #b294c5;
+  --aol-purple-40:    #cbb8d9;
+  --aol-purple-20:    #e5dbec;
+  --aol-tangerine-40: #fdd8a7;
+  --aol-tangerine-20: #feebd3;
+  --aol-golden-40:    #ffe9b5;
+  --aol-golden-20:    #fff4da;
+
+  /* Ink — four steps, not nine. Purple-tinted so it sits with Royal Purple
+     rather than fighting it. */
+  --aol-ink:         #2a1b35;  /* body + headings      16.07:1 on white     */
+  --aol-ink-muted:   #5b5266;  /* secondary text        7.38:1 on white     */
+  --aol-ink-faint:   #6f677a;  /* fine print            5.39:1 on white,
+                                  4.93:1 on cream — the lightest ink that
+                                  still clears AA on every surface here.
+                                  Do not go lighter for any text.           */
+  --aol-ink-on-dark: #ffffff;
+
+  /* Rules and edges — BORDERS ONLY. Never a text colour. */
+  --aol-rule:        #e7e2ec;
+  --aol-rule-strong: #cbb8d9;
+
+  /* Surfaces */
+  --aol-surface:        #ffffff;
+  --aol-surface-warm:   #fff9f2;  /* barely-there dawn wash                 */
+  --aol-surface-cream:  #fff4da;  /* Golden Yellow 20%                      */
+  --aol-surface-blush:  #fde7df;  /* Coral Bliss 20%                        */
+  --aol-surface-lilac:  #e5dbec;  /* Royal Purple 20%                       */
+  --aol-surface-deep:   #3d2450;  /* deep plum, for inverted sections       */
+
+  /* ------------------------------------------------------------ CTA COLOUR
+     THE RULE THAT GOVERNS THE PAGE:
+
+       Royal Purple is the ONLY brand colour that carries a white label.
+       White on #7e4d9f = 6.09:1 — passes AA.
+
+       The warm colours are FILLS AND GRADIENTS ONLY. They never appear as
+       text on white, and never under a white label:
+         white on Coral      2.48:1  FAIL
+         white on Tangerine  2.13:1  FAIL
+         white on Golden     1.55:1  FAIL
+         Tangerine on white  2.13:1  FAIL
+       When a warm fill carries text, the text is --aol-ink:
+         ink on Golden      10.38:1  PASS
+         ink on Tangerine    7.56:1  PASS
+         ink on Coral        6.47:1  PASS
+
+     This is what replaces the old page's white-on-#FF7E00 at 2.55:1, which
+     failed on every button on both pages.
+     -------------------------------------------------------------------- */
+  --aol-cta-bg:        var(--aol-purple);
+  --aol-cta-fg:        var(--aol-white);      /* 6.09:1 */
+  --aol-cta-bg-hover:  #6b3f88;               /* 7.62:1 */
+  --aol-cta-bg-active: #5c2e7e;               /* 9.78:1 */
+
+  --aol-cta-alt-bg:    var(--aol-golden);
+  --aol-cta-alt-fg:    var(--aol-ink);        /* 10.38:1 */
+
+  --aol-focus:         #2a1b35;
+  --aol-focus-inverse: #ffffff;
+
+  /* Gradients — the sunrise expression. Backgrounds only, never text. */
+  --aol-grad-dawn:     linear-gradient(135deg, #fec845 0%, #f5865f 100%);
+  --aol-grad-sunrise:  linear-gradient(135deg, #f99d22 0%, #f5865f 100%);
+  --aol-grad-twilight: linear-gradient(135deg, #7e4d9f 0%, #f5865f 55%, #fec845 100%);
+  /* Soft washes for large areas — tints, so text stays readable over them */
+  --aol-grad-wash:     linear-gradient(180deg, #fff4da 0%, #fff9f2 55%, #ffffff 100%);
+  --aol-grad-wash-up:  linear-gradient(0deg,   #fde7df 0%, #fff9f2 60%, #ffffff 100%);
+
+  /* ------------------------------------------------------------ TYPOGRAPHY
+     Poppins (primary — body, UI, labels, CTAs) + Lora (secondary —
+     editorial headlines and quotes), per the brand guide. Madelyn is the
+     accent script but is Canva-only and cannot be webfont-loaded; if a
+     signature is ever needed it ships as an SVG.
+
+     SIX STEPS. The old page used 35 distinct size/weight pairings across
+     12 sizes. Everything on this page is one of these six.
+     -------------------------------------------------------------------- */
+  --aol-font-ui:      'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --aol-font-display: 'Lora', Georgia, 'Times New Roman', Times, serif;
+
+  --aol-fs-display: clamp(2rem, 1.15rem + 3.6vw, 3.75rem);    /* Lora 500 — h1 only */
+  --aol-fs-h2:      clamp(1.75rem, 1.35rem + 1.7vw, 2.625rem);/* Lora 500           */
+  --aol-fs-h3:      clamp(1.125rem, 1.06rem + 0.3vw, 1.3125rem); /* Poppins 600     */
+  --aol-fs-lead:    clamp(1.0625rem, 1.00rem + 0.4vw, 1.25rem);  /* Poppins 400     */
+  --aol-fs-body:    1rem;                                     /* Poppins 400        */
+  --aol-fs-small:   0.875rem;                                 /* Poppins 500        */
+
+  --aol-lh-display: 1.12;
+  --aol-lh-heading: 1.22;
+  --aol-lh-body:    1.65;
+
+  --aol-ls-kicker:  0.10em;   /* the only letterspaced style on the page */
+
+  --aol-measure:    62ch;     /* prose line length cap */
+
+  /* ---------------------------------------------------------------- SPACE
+     4px base. --aol-section-y is the only fluid one.
+     -------------------------------------------------------------------- */
+  --aol-sp-1: 0.25rem;
+  --aol-sp-2: 0.5rem;
+  --aol-sp-3: 0.75rem;
+  --aol-sp-4: 1rem;
+  --aol-sp-5: 1.5rem;
+  --aol-sp-6: 2rem;
+  --aol-sp-7: 3rem;
+  --aol-sp-8: 4rem;
+  --aol-sp-9: 6rem;
+
+  --aol-section-y:  clamp(2.75rem, 1.7rem + 3.8vw, 6rem);  /* 44px → 96px  */
+  --aol-shell-max:  1120px;
+  --aol-shell-pad:  clamp(1.25rem, 0.55rem + 2.9vw, 2.5rem);
+
+  /* --------------------------------------------------------------- SHAPE */
+  --aol-radius-sm:  8px;
+  --aol-radius:     14px;
+  --aol-radius-lg:  24px;
+  --aol-radius-pill: 999px;
+
+  /* Shadows are warm, never neutral grey — a cool shadow on a sunrise page
+     reads as a rendering mistake. */
+  --aol-shadow-sm: 0 1px 2px rgba(42, 27, 53, 0.05);
+  --aol-shadow:    0 2px 4px rgba(42, 27, 53, 0.04), 0 12px 28px -12px rgba(126, 77, 159, 0.18);
+  --aol-shadow-lg: 0 4px 8px rgba(42, 27, 53, 0.05), 0 28px 60px -24px rgba(126, 77, 159, 0.28);
+
+  /* --------------------------------------------------------------- MOTION
+     Every transition that uses these is switched off wholesale under
+     prefers-reduced-motion in 02-base.css. That matters more than usual
+     here: the audience has an anxiety complaint, and the old page ran six
+     pulsing CTA animations with no reduced-motion rule in any of its 29
+     stylesheets.
+     -------------------------------------------------------------------- */
+  --aol-ease:      cubic-bezier(0.22, 0.61, 0.36, 1);
+  --aol-dur-fast:  120ms;
+  --aol-dur:       180ms;
+  --aol-dur-slow:  420ms;
+
+  /* Set by aol.js so sections can reserve room for the fixed bar. */
+  --aol-sticky-h: 0px;
+
+  /* ----------------------------------------------------------------- Z
+     The sticky bar must clear anything Unbounce paints. Kept deliberately
+     modest so it doesn't fight Unbounce's own overlays. */
+  --aol-z-sticky: 900;
+  --aol-z-header: 800;
+}
